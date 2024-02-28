@@ -92,8 +92,7 @@ LAZY_GROUPS = [int(lazy_groups) for lazy_groups in lazy_groups.split()] if lazy_
 my_users = [int(my_users) if id_pattern.search(my_users) else my_users for my_users in environ.get('MY_USERS', '').split()]
 MY_USERS = (my_users) if my_users else []
 
-# Online Stream and Download
-PORT = int(environ.get('PORT', '8054'))
+PORT = int(environ.get('PORT', 8080))
 NO_PORT = bool(environ.get('NO_PORT', False))
 APP_NAME = None
 if 'DYNO' in environ:
@@ -102,8 +101,7 @@ if 'DYNO' in environ:
 else:
     ON_HEROKU = False
 BIND_ADRESS = str(getenv('WEB_SERVER_BIND_ADDRESS', '0.0.0.0'))
-FQDN= 'storage.lucifercloud.app'
-FQD = ('FQDN', BIND_ADRESS) if not ON_HEROKU or getenv('FQDN') else APP_NAME+'.herokuapp.com'
+FQDN = str(getenv('FQDN', BIND_ADRESS)) if not ON_HEROKU or getenv('FQDN') else APP_NAME+'.herokuapp.com'
 URL = "https://{}/".format(FQDN) if ON_HEROKU or NO_PORT else \
     "http://{}:{}/".format(FQDN, PORT)
 SLEEP_THRESHOLD = int(environ.get('SLEEP_THRESHOLD', '60'))
@@ -125,7 +123,6 @@ else:
     URL = "http://{}/".format(FQDN)
 BANNED_CHANNELS = list(set(int(x) for x in str(getenv("BANNED_CHANNELS", "-1001987654567")).split())) 
 OWNER_USERNAME = "LazyDeveloper"
-
 
 # URL UPLOADING
 BANNED_USERS = set(int(x) for x in environ.get("BANNED_USERS", "").split())
